@@ -22,5 +22,8 @@ from school import views as school_views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',school_views.home,name='home'),
+    path('admission/',school_views.admission,name='admission'),
+    path('update_records/<int:student_id>/', school_views.update_records, name='update_records'),
+    path('delete_records/<int:student_id>/', school_views.delete_records, name='delete_records'),
     
 ]
