@@ -61,10 +61,23 @@ def delete_records(request,student_id):
         return redirect('admission')  
     return redirect('admission')  
 
-def student_details(request,student_id):
-    student=get_object_or_404(Students,student_id=student_id)
-    student=Students.objects.filter(class_name=student.class_name,section=student.section)
+def student_details(request):
+    class_name=request.GET.get('class_name')
+    
+    if class_name:
+        students=Students.objects.filter(class_name=class_name)
+    else:
+        students=Students.objects.all()
+    classes=Students.objects.values('class_name').distinct()
+    sections=Students.objects.values('section').distinct()
     context={
-        'student':student
+        'students':students,
+        'classes':classes,
+        'sections':sections
     }
+    
     return render(request,'school/student_details.html',context)
+
+def library(request):
+    book_records=library_management.objects.all()
+    return render(request,'school/library.html',{'book_records':book_records})

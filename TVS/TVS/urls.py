@@ -18,6 +18,8 @@ from django.contrib import admin
 from django.urls import path
 from django.urls import include
 from school import views as school_views
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -25,5 +27,11 @@ urlpatterns = [
     path('admission/',school_views.admission,name='admission'),
     path('update_records/<int:student_id>/', school_views.update_records, name='update_records'),
     path('delete_records/<int:student_id>/', school_views.delete_records, name='delete_records'),
+    path('student_details/',school_views.student_details,name='student_details'),
+    path('library/',school_views.library,name='library'),
     
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
