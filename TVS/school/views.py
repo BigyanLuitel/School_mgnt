@@ -78,6 +78,38 @@ def student_details(request):
     
     return render(request,'school/student_details.html',context)
 
-def library(request):
-    book_records=library_management.objects.all()
-    return render(request,'school/library.html',{'book_records':book_records})
+def library(request,student_id):
+    student=get_object_or_404(Students,student_id=student_id)
+    book_records=library_records.objects.all()
+    context={
+        'student':student,
+        'book_records':book_records
+    }
+    return render(request,'school/library.html',context)
+
+def library_management(request,student_id,id):
+    student=get_object_or_404(Students,student_id=student_id)
+    book_records=get_object_or_404(library_records,book_id=id)
+    if request.method=="POST":
+        book_name=request.POST.get('book_name')
+        author=request.POST.get('author')
+        publication=request.POST.get('publication')
+        edition=request.POST.get('edition')
+        issued_date=request.POST.get('issued_date')
+        return_date=request.POST.get('return_date')
+        
+        library_records.objects.create(
+            book_name=book_name,
+            author=author,
+            publication=publication,
+            edition=edition,
+            issued_date=issued_date,
+            return_date=return_date,
+            
+        )
+        return redirect('library')
+    context={
+        'student':student,
+        'book_records':book_records
+    }
+    return render(request,'school/library_management.html',context)

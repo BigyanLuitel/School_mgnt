@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load static %}
+<div class="container mt-5">
+    <form class="col-md-8 mx-auto card p-4 shadow-lg" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <h2 class="mb-4">Library Management</h2>
+
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label class="form-label">Student Name</label>
+                <input name="first_name" required type="text" class="form-control">
+            </div>
+        </div>
+        <div class="row mb-3">
+  <div class="col-md-6">
+    <label for="classSelect" class="form-label">Select Class</label>
+    <select class="form-select"  name="class_name" id="classSelect" required>
+      <option value="" disabled selected>Select Class</option>
+      <option value="1">One</option>
+      <option value="2">Two</option>
+      <option value="3">Three</option>
+      <!-- Add more classes -->
+    </select>
+  </div>
+
+  <div class="col-md-6">
+    <label for="sectionSelect" class="form-label">Select Section</label>
+    <select class="form-select" name="section" id="sectionSelect" required>
+      <option value="{{student.section}}" >Select Section</option>
+      <option value="A">A</option>
+      <option value="B">B</option>
+      <option value="C">C</option>
+      <!-- Add more sections -->
+    </select>
+  </div>
+</div>
+
+
+        <div class="mb-3">
+            <label class="form-label">Book Name</label>
+            <input name="parents_name" required type="text" class="form-control">
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Publication</label>
+            <input name="address" required type="text" class="form-control">
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Author</label>
+            <input name="contact" required type="text" class="form-control">
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label class="form-label">Issued Date</label>
+                <input name="dob" required type="date" class="form-control">
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Return Date</label>
+                <input name="doa" required type="date" class="form-control">
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+        </div>
+{% block start %}
+{% endblock %}

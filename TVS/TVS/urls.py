@@ -28,7 +28,8 @@ urlpatterns = [
     path('update_records/<int:student_id>/', school_views.update_records, name='update_records'),
     path('delete_records/<int:student_id>/', school_views.delete_records, name='delete_records'),
     path('student_details/',school_views.student_details,name='student_details'),
-    path('library/',school_views.library,name='library'),
+    path('library/<int:student_id>/', school_views.library, name='library'),
+    path('library_management/<int:student_id>/<int:id>/',school_views.library_management,name='library_management'),
     
 ]
 
