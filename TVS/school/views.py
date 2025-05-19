@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import *
+from django.contrib import messages
 
 # Create your views here.
 def home(request):
@@ -78,38 +79,50 @@ def student_details(request):
     
     return render(request,'school/student_details.html',context)
 
-def library(request,student_id):
-    student=get_object_or_404(Students,student_id=student_id)
+def library(request):
     book_records=library_records.objects.all()
     context={
-        'student':student,
         'book_records':book_records
     }
     return render(request,'school/library.html',context)
 
-def library_management(request,student_id,id):
-    student=get_object_or_404(Students,student_id=student_id)
-    book_records=get_object_or_404(library_records,book_id=id)
-    if request.method=="POST":
-        book_name=request.POST.get('book_name')
-        author=request.POST.get('author')
-        publication=request.POST.get('publication')
-        edition=request.POST.get('edition')
-        issued_date=request.POST.get('issued_date')
-        return_date=request.POST.get('return_date')
-        
-        library_records.objects.create(
+def library_management(request, id):
+    book_records = get_object_or_404(library_records, id=id)
+    students = Students.objects.all()
+
+    if request.method == "POST":
+        # Extract from form
+        student_id = request.POST.get('student_id')
+        book_name = request.POST.get('book_name')
+        author = request.POST.get('author')
+        publication = request.POST.get('publication')
+        edition = request.POST.get('edition')
+        issued_date = request.POST.get('issued_date')
+        return_date = request.POST.get('return_date')
+
+        try:
+            student = Students.objects.get(student_id=student_id)
+        except Students.DoesNotExist:
+            messages.error(request, "Student not found.")
+            return redirect('library')
+
+        # Create book
+        book = library_records.objects.create(
             book_name=book_name,
             author=author,
             publication=publication,
-            edition=edition,
-            issued_date=issued_date,
-            return_date=return_date,
-            
+            Edition=edition
         )
-        return redirect('library')
-    context={
-        'student':student,
-        'book_records':book_records
+
+        # Create issue record
+        library_Management.objects.create(
+            student=student,
+            book=book,
+            return_date=return_date
+        )
+
+    context = {
+        'students': students,
+        'book_records': book_records
     }
-    return render(request,'school/library_management.html',context)
+    return render(request, 'school/library_management.html', context)

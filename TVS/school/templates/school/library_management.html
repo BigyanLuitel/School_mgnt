@@ -1,0 +1,121 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block start %}
+<div class="container mt-5">
+    <form class="col-md-8 mx-auto card p-4 shadow-lg" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <h2 class="mb-4">Library Management</h2>
+
+       <div class="row mb-3">
+            <div class="col-md-6">
+                <label class="form-label">First Name</label>
+                <input name="first_name" required type="text" class="form-control">
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Last Name</label>
+                <input name="last_name" required type="text" class="form-control">
+            </div>
+        <div class="row mb-3">
+  <div class="col-md-6">
+    <label for="classSelect" class="form-label">Select Class</label>
+    <select class="form-select"  name="class_name" id="classSelect" required>
+      <option value="" disabled selected>Select Class</option>
+      <option value="1">One</option>
+      <option value="2">Two</option>
+      <option value="3">Three</option>
+      <!-- Add more classes -->
+    </select>
+  </div>
+
+  <div class="col-md-6">
+    <label for="sectionSelect" class="form-label">Select Section</label>
+    <select class="form-select" name="section" id="sectionSelect" required>
+      <option value="{{student.section}}" >Select Section</option>
+      <option value="A">A</option>
+      <option value="B">B</option>
+      <option value="C">C</option>
+      <!-- Add more sections -->
+    </select>
+  </div>
+</div>
+
+
+        <div class="mb-3">
+            <label class="form-label">Book Name</label>
+            <input name="book_name" value="{{book_records.book_name}}" required type="text" class="form-control">
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Publication</label>
+            <input name="publication" value="{{book_records.publication}}" required type="text" class="form-control">
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Author</label>
+            <input name="author" value="{{book_records.author}}"  required type="text" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Edition</label>
+            <input name="edition" value="{{book_records.Edition}}"  required type="text" class="form-control">
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label class="form-label">Issued Date</label>
+                <input name="issued_date" required type="date" class="form-control">
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Return Date</label>
+                <input name="return_date" required type="date" class="form-control">
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+        </div>
+
+
+
+         <table class="table table-striped table-bordered mt-5">
+  <thead>
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Book Name</th>
+      <th scope="col">Aurthor</th>
+      <th scope="col">Publication</th>
+      <th scope="col">Edition</th>
+      <th scope="col"> First</th>
+      <th scope="col">Last Name</th>
+      <th scope="col">Class</th>
+      <th scope="col">Section</th>
+      <th scope="col">Issued Date</th>
+      <th scope="col">Return Date</th>
+      <th scope="col">Status</th>
+
+      
+
+    </tr>
+  </thead>
+  <tbody>
+    {% for record in library_record %}
+
+    <tr>
+      <th scope="row">{{forloop.counter}}</th>
+      <td>{{ record.book_name }}</td>
+      <td>{{ record.author }}</td>
+      <td>{{ record.publication }}</td>
+      <td>{{ record.edition }}</td>
+      <td>{{student.first_name}}</td>
+      <td>{{ student.last_name }}</td>
+      <td>{{ student.class_name }}</td>
+      <td>{{ student.section }}</td>
+      <td>{{ record.issued_date }}</td>
+      <td>{{ record.return_date }}</td>
+      {% if record.status %}
+    <td>Available</td>
+{% else %}
+    <td>Not Available</td>
+{% endif %}
+    </tr>
+    {% endfor %}
+  </tbody>
+{% endblock %}

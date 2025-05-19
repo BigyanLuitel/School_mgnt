@@ -43,12 +43,10 @@
     </select>
   </form>
 </li>
-
-    {% if student %}
   <li class="nav-item">
-    <a class="nav-link" href="{% url 'library' student.student_id %}">Library</a>
+    <a class="nav-link" href="{% url 'library' %}">Library</a>
   </li>
-{% endif %}
+
 
 
       <li class="nav-item">

@@ -34,11 +34,11 @@
     <td>Not Available</td>
 {% endif %}
         <td>
-            <form method="POST" action="{% url 'library_management' student.student_id record.id %}" style="display:inline;">
+            <form method="POST" action="{% url 'library_management'  record.id %}" style="display:inline;">
             {% csrf_token %}
             <button type="submit" class="btn btn-primary m-2">Return</button>
             </form>
-            <a href="{% url 'library_management' students.student_id record.id %}" class="btn btn-success">Borrow</a>
+            <a href="{% url 'library_management'  record.id %}" class="btn btn-success">Borrow</a>
         </td>
 
     </tr>

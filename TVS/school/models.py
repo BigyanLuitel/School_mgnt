@@ -23,7 +23,7 @@ class library_records(models.Model):
     book_name = models.CharField(max_length=100)
     author = models.CharField(max_length=100)
     publication = models.CharField(max_length=100)
-    Edition=models.DateField()
+    Edition=models.CharField(max_length=100)
     status=models.BooleanField(default=False)
 
 
