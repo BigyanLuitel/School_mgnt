@@ -5,6 +5,15 @@
     <form class="col-md-8 mx-auto card p-4 shadow-lg" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <h2 class="mb-4">Library Management</h2>
+<div class="mb-3">
+    <label class="form-label">Select Student</label>
+    <select name="student_id" class="form-select" required>
+        <option value="" disabled selected>Select Student</option>
+        {% for student in students %}
+            <option value="{{ student.student_id }}">{{ student.first_name }} {{ student.last_name }} (Class {{ student.class_name }}{{ student.section }})</option>
+        {% endfor %}
+    </select>
+</div>
 
        <div class="row mb-3">
             <div class="col-md-6">
@@ -42,21 +51,21 @@
 
         <div class="mb-3">
             <label class="form-label">Book Name</label>
-            <input name="book_name" value="{{book_records.book_name}}" required type="text" class="form-control">
+            <input name="book_name" value="{{book.book_name}}" required type="text" class="form-control">
         </div>
 
         <div class="mb-3">
             <label class="form-label">Publication</label>
-            <input name="publication" value="{{book_records.publication}}" required type="text" class="form-control">
+            <input name="publication" value="{{book.publication}}" required type="text" class="form-control">
         </div>
 
         <div class="mb-3">
             <label class="form-label">Author</label>
-            <input name="author" value="{{book_records.author}}"  required type="text" class="form-control">
+            <input name="author" value="{{book.author}}"  required type="text" class="form-control">
         </div>
         <div class="mb-3">
             <label class="form-label">Edition</label>
-            <input name="edition" value="{{book_records.Edition}}"  required type="text" class="form-control">
+            <input name="edition" value="{{book.Edition}}"  required type="text" class="form-control">
         </div>
 
         <div class="row mb-3">
@@ -96,7 +105,7 @@
     </tr>
   </thead>
   <tbody>
-    {% for record in library_record %}
+    {% for record in book_records %}
 
     <tr>
       <th scope="row">{{forloop.counter}}</th>
@@ -104,10 +113,10 @@
       <td>{{ record.author }}</td>
       <td>{{ record.publication }}</td>
       <td>{{ record.edition }}</td>
-      <td>{{student.first_name}}</td>
-      <td>{{ student.last_name }}</td>
-      <td>{{ student.class_name }}</td>
-      <td>{{ student.section }}</td>
+      <td>{{record.student.first_name}}</td>
+      <td>{{ record.student.last_name }}</td>
+      <td>{{ record.student.class_name }}</td>
+      <td>{{ record.student.section }}</td>
       <td>{{ record.issued_date }}</td>
       <td>{{ record.return_date }}</td>
       {% if record.status %}

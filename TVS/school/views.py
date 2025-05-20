@@ -87,32 +87,28 @@ def library(request):
     return render(request,'school/library.html',context)
 
 def library_management(request, id):
-    book_records = get_object_or_404(library_records, id=id)
+    book = get_object_or_404(library_records, id=id)
     students = Students.objects.all()
+    issue_records = library_Management.objects.filter(book=book).select_related('student')
 
     if request.method == "POST":
         # Extract from form
-        student_id = request.POST.get('student_id')
         book_name = request.POST.get('book_name')
         author = request.POST.get('author')
         publication = request.POST.get('publication')
         edition = request.POST.get('edition')
         issued_date = request.POST.get('issued_date')
         return_date = request.POST.get('return_date')
+        student_id = request.POST.get('student_id')
 
-        try:
-            student = Students.objects.get(student_id=student_id)
-        except Students.DoesNotExist:
-            messages.error(request, "Student not found.")
-            return redirect('library')
+        student = get_object_or_404(Students, student_id=student_id)
 
-        # Create book
-        book = library_records.objects.create(
-            book_name=book_name,
-            author=author,
-            publication=publication,
-            Edition=edition
-        )
+        # Update book (optional — or skip if already created)
+        book.book_name = book_name
+        book.author = author
+        book.publication = publication
+        book.Edition = edition
+        book.save()
 
         # Create issue record
         library_Management.objects.create(
@@ -123,6 +119,7 @@ def library_management(request, id):
 
     context = {
         'students': students,
-        'book_records': book_records
+        'book': book,
+        'book_records': issue_records,  # now a queryset
     }
     return render(request, 'school/library_management.html', context)

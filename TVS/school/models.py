@@ -36,7 +36,6 @@ class library_Management(models.Model):
     book = models.ForeignKey(library_records, on_delete=models.CASCADE)
     issue_date = models.DateField(auto_now=True)
     return_date = models.DateField()
-    status = models.BooleanField(default=False)
 
     def __str__(self):
         return self.student.first_name + " " + self.book.book_name
